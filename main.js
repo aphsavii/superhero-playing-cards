@@ -2,6 +2,8 @@ const button = document.getElementById('btn');
 const imageDiv = document.getElementById('image');
 const powers = document.getElementById('powers');
 const heroName = document.getElementById('heroName');
+const count = document.getElementById('count');
+let card = 0;
 const getRandom = () => {
     let num = Math.ceil(Math.random() * 731);
     // console.log(num);
@@ -24,9 +26,12 @@ const getHero = () => {
             }
             console.log(html);
             powers.innerHTML = `${html}`;
+            if (values[0] !== 'null') {
+                card++;
+                count.innerHTML = `Card : ${card}`;
+            }
         }
     )
-
 }
 getHero();
 button.onclick = () => {
