@@ -1,0 +1,162 @@
+<!-- https://superheroapi.com/api/1587466761734069 -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuperHero Game</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            /* margin: 0px;
+            padding: 0px; */
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url(img1.jpg);
+            background-size: cover;
+            color: white;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-image: url(gradient_2.jpg);
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 95vh;
+            width: 320px;
+            /* border: 1px solid rgb(255, 255, 255); */
+            border-radius: 15px;
+            box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+        }
+
+        #image {
+            border: 1px solid rgb(255, 255, 255);
+            height: 30%;
+            width: 50%;
+            border-radius: 5px;
+            box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;                    }
+
+        #powers {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* border: 1px dashed red; */
+            height: 30%;
+            width: 60%;
+            text-align: justify;
+        }
+
+        #powers p {
+            margin: 2px 0px;
+            font-size: 1.1em;
+            text-transform: capitalize;
+        }
+
+        @media only screen and (max-width:600px) {
+            .container {
+                width: 90%;
+                height: 70vh;
+            }
+
+            #image {
+                width: 55%;
+            }
+
+            #powers {
+                /* width:80%; */
+                height: 40%;
+            }
+
+            #powers p {
+                font-size: 1.3em;
+            }
+        }
+
+        #btn {
+            margin: 10px 0px;
+            height: 30px;
+            border: 1px solid white;
+            border-radius: 5px;
+            background: url();
+            background-size: cover;
+            color: white;
+            font-weight: bolder;
+            cursor: pointer;
+        }
+
+        img {
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div id="image">
+        </div>
+        <div id="heroName">
+            <h2></h2>
+        </div>
+        <div id="powers">
+
+        </div>
+        <button id="btn">Get New Hero</button>
+    </div>
+</body>
+<script>
+    const button = document.getElementById('btn');
+    const imageDiv = document.getElementById('image');
+    const powers = document.getElementById('powers');
+    const heroName = document.getElementById('heroName');
+    const getRandom = () => {
+        let num = Math.ceil(Math.random() * 731);
+        // console.log(num);
+        return num;
+    }
+    const getHero = () => {
+        let id = getRandom();
+        let link = 'https://superheroapi.com/api.php/1587466761734069/';
+        fetch(`${link}/${id}`).then(response => response.json()).then(
+            json => {
+                imageDiv.innerHTML = `<img src='${json.image.url}' style='height:100%;width:100%;'/>`;
+                heroName.innerHTML = `<h1>${json.name}</h1>`;
+                console.log(json);
+                let keys = Object.keys(json.powerstats);
+                let values = Object.values(json.powerstats);
+                let emojis = ['🧠', '💪', '🚀', '🧲', '🔥', '⚔️'];
+                let html = ``;
+                for (let index = 0; index < keys.length; index++) {
+                    html += `<p>${keys[index]} ${emojis[index]} :  ${values[index]}</p>`;
+                }
+                console.log(html);
+                powers.innerHTML = `${html}`;
+            }
+        )
+
+    }
+    getHero();
+    button.onclick = () => {
+        getHero();
+    }
+</script>
+
+</html>
